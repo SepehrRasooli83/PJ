@@ -1,7 +1,12 @@
 import React from "react";
+import ProductCarousel from "../ProductCarousel";
 
 const ProductStep = () => {
-  return <div>ProductStep</div>;
+  return (
+    <>
+      <ProductCarousel />
+    </>
+  );
 };
 
 export default ProductStep;

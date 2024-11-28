@@ -8,6 +8,7 @@ type StepPropsType = {
   step: StepType;
 };
 
+//this component provides the details of a step based on it's props:
 const Steps = (props: StepPropsType) => {
   switch (props.step) {
     case StepType.Product:

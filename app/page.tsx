@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <>
       <div>
-        <StepBar currentStep={StepType.Paper} />
         <Steps step={StepType.Product} />
       </div>
     </>

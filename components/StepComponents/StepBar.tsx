@@ -5,6 +5,8 @@ interface StepBarProps {
   currentStep: StepType; // Use the StepType enum for the current step
 }
 
+//this component works similar to a progress bar and indicates the step
+//based on the props
 const StepBar: React.FC<StepBarProps> = ({ currentStep }) => {
   const steps: StepType[] = [StepType.Product, StepType.Paper, StepType.Pay];
 

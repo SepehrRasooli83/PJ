@@ -2,6 +2,10 @@
 
 import React, { useState } from "react";
 
+type ProductCarouselProps = {
+  title: string;
+};
+
 interface Product {
   id: number;
   name: string;
@@ -20,7 +24,7 @@ const products: Product[] = [
   { id: 8, name: "Product 8", image: "/images/product8.jpg", price: "$80" },
 ];
 
-const ProductCarousel: React.FC = () => {
+const ProductCarousel: React.FC<ProductCarouselProps> = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -39,22 +43,28 @@ const ProductCarousel: React.FC = () => {
   const currentProducts = products.slice(currentIndex, currentIndex + 4);
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto mt-8">
+    <div className="relative w-full max-w-4xl mx-auto mt-8 bg-gray-100 rounded-lg p-6 shadow-lg">
+      <div>
+        {/* Carousel Title */}
+        <h2 className="text-xl font-bold text-gray-700 mb-6">{props.title}</h2>
+      </div>
       {/* Carousel Container */}
       <div className="overflow-hidden">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-6">
           {currentProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white shadow-lg rounded-lg overflow-hidden"
+              className="bg-white shadow-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-xl"
             >
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-40 object-cover"
+                className="w-full h-48 object-cover rounded-t-lg"
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold">{product.name}</h3>
+                <h3 className="text-lg font-medium text-gray-700">
+                  {product.name}
+                </h3>
                 <p className="text-sm text-gray-600">{product.price}</p>
               </div>
             </div>
@@ -65,13 +75,13 @@ const ProductCarousel: React.FC = () => {
       {/* Navigation Buttons */}
       <button
         onClick={prevSlide}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black text-white p-2 rounded-full shadow-md"
+        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-300 text-gray-700 p-3 rounded-full shadow-md hover:bg-gray-400"
       >
         &#8592;
       </button>
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black text-white p-2 rounded-full shadow-md"
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-300 text-gray-700 p-3 rounded-full shadow-md hover:bg-gray-400"
       >
         &#8594;
       </button>

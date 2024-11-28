@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/CommonComponents/Navbar";
+import Footer from "@/components/CommonComponents/Footer";
 import StepBar from "@/components/StepComponents/StepBar";
 import { StepType } from "./types/StepTypes";
 
@@ -21,10 +22,13 @@ export default function RootLayout({
             <Navbar />
           </nav>
           <div>
-            <StepBar currentStep={StepType.Product} />
+            <StepBar currentStep={StepType.Paper} />
           </div>
         </header>
         <main>{children}</main>
+        <footer style={{ paddingTop: "20px" }}>
+          <Footer />
+        </footer>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <div>
-        <Steps step={StepType.Product} />
+        <Steps />
       </div>
     </>
   );

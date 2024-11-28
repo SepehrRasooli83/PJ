@@ -4,32 +4,22 @@ import PaperStep from "./StepComponents/PaperStep";
 import ProductStep from "./StepComponents/ProductStep";
 import PayStep from "./StepComponents/PayStep";
 
-type StepPropsType = {
-  step: StepType;
-};
+const sabadKharidProduct: string[] = [];
+const sabadKharidPaper: string[] = [];
 
-//this component provides the details of a step based on it's props:
-const Steps = (props: StepPropsType) => {
-  switch (props.step) {
-    case StepType.Product:
-      return (
-        <>
-          <ProductStep />
-        </>
-      );
-    case StepType.Paper:
-      return (
-        <>
-          <PaperStep />
-        </>
-      );
-    case StepType.Pay:
-      return (
-        <>
-          <PayStep />
-        </>
-      );
+const Steps: React.FC = () => {
+  if (sabadKharidProduct.length === 0) {
+    return <ProductStep />;
+  } else if (sabadKharidProduct.length > 0 && sabadKharidPaper.length === 0) {
+    return <PaperStep />;
+  } else if (sabadKharidProduct.length > 0 && sabadKharidPaper.length > 0) {
+    return <PayStep />;
   }
+  return (
+    <>
+      <h1>something went wrong...</h1>
+    </>
+  );
 };
 
 export default Steps;

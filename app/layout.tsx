@@ -22,7 +22,7 @@ export default function RootLayout({
             <Navbar />
           </nav>
           <div>
-            <StepBar currentStep={StepType.Paper} />
+            <StepBar />
           </div>
         </header>
         <main>{children}</main>

@@ -1,3 +1,3 @@
 export enum StepType{
-    Product,Paper,Pay
+    Category,Product,Pay
 }

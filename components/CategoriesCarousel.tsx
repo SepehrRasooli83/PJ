@@ -4,42 +4,46 @@ import React, { useState } from "react";
 
 // Sample data: Array of categories
 const categories = [
-  "Electronics",
-  "Clothing",
-  "Home",
-  "Books",
-  "Toys",
-  "Sports",
-  "Beauty",
-  "Groceries",
-  "Automotive",
-  "Health",
-  "Furniture",
-  "Tools",
-  "Kitchen",
-  "Garden",
-  "Music",
-  "Movies",
-  "Pets",
-  "Outdoors",
-  "Kids",
-  "Baby",
-  "Office",
-  "Travel",
-  "Food",
-  "Gaming",
-  "Hobbies",
-  "Gifts",
-  "Jewelry",
-  "Technology",
-  "Art",
-  "Crafts",
-  "Lifestyle",
+  "Playstation Account",
+  "Xbox Account",
+  "Freepik Account",
+  "PayPal Account",
+  "Apple ID",
+  "Telegram Premium",
+  "Google Play Gift Card",
+  "Discord Account",
+  "Volume Services",
+  "iTunes Gift Card",
+  "Call of Duty CP",
+  "Netflix Account",
+  "Spotify Account",
+  "Apple Music Subscription",
+  "Skype Credit",
+  "YouTube Premium Account",
+  "TradingView Subscription",
+  "GitHub Account",
+  "LightNode Server",
+  "NOD32 License",
+  "Stars Major (Specify Service)",
+  "SoundCloud Account",
+  "Steam Account",
+  "Hetzner Cloud",
+  "ChatGPT Subscription",
+  "Canva Account",
+  "Epic Games Account",
+  "EA Play Account",
+  "Twitch Account",
+  "Riot Games Points",
+  "Figma Premium Account",
+  "Notion Pro Subscription",
+  "Shopify Store Subscription",
+  "Coursera Premium Account",
+  "Duolingo Super Version",
 ];
 
-const ProductCategoryCarousel: React.FC = () => {
+const CategoryCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 20; // 5 rows * 4 columns = 20 items per page
+  const itemsPerPage = 20; // Adjusted for demonstration purposes (8 items per page)
 
   // Function to move backward
   const handleMoveBackward = () => {
@@ -101,4 +105,4 @@ const ProductCategoryCarousel: React.FC = () => {
   );
 };
 
-export default ProductCategoryCarousel;
+export default CategoryCarousel;

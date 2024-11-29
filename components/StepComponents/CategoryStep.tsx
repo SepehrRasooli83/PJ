@@ -1,14 +1,15 @@
 import React from "react";
 import ProductCarousel from "../ProductCarousel";
+import CategoryCarousel from "../CategoriesCarousel";
 
-const ProductStep = () => {
+const CategoryStep = () => {
   return (
     <>
       <div className="py-5">
-        <ProductCarousel title="Spotify Account" />
+        <CategoryCarousel />
       </div>
     </>
   );
 };
 
-export default ProductStep;
+export default CategoryStep;

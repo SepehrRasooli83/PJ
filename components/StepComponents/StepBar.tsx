@@ -3,30 +3,30 @@
 import React, { useState, useEffect } from "react";
 import { StepType } from "@/app/types/StepTypes";
 
-const ProductBasketFake: string[] = [];
-const PaperBasketFake: string[] = [];
+const categoryChoice: string[] = ["Doulingo"];
+const basketItems: string[] = [];
 
 const StepBar: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<StepType | null>(null);
 
-  const steps: StepType[] = [StepType.Product, StepType.Paper, StepType.Pay];
+  const steps: StepType[] = [StepType.Category, StepType.Product, StepType.Pay];
 
   useEffect(() => {
-    if (ProductBasketFake.length > 0 && PaperBasketFake.length === 0) {
-      setCurrentStep(StepType.Paper);
-    } else if (ProductBasketFake.length === 0) {
+    if (categoryChoice.length > 0) {
       setCurrentStep(StepType.Product);
-    } else if (ProductBasketFake.length > 0 && PaperBasketFake.length > 0) {
+    } else if (categoryChoice.length === 0 && basketItems.length === 0) {
+      setCurrentStep(StepType.Category);
+    } else if (basketItems.length > 0) {
       setCurrentStep(StepType.Pay);
     }
   }, []);
 
   const getStepLabel = (step: StepType) => {
     switch (step) {
+      case StepType.Category:
+        return "Category";
       case StepType.Product:
         return "Product";
-      case StepType.Paper:
-        return "Paper";
       case StepType.Pay:
         return "Pay";
       default:

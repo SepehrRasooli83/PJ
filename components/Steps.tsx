@@ -1,18 +1,18 @@
 import React from "react";
 import { StepType } from "@/app/types/StepTypes";
-import PaperStep from "./StepComponents/PaperStep";
 import ProductStep from "./StepComponents/ProductStep";
+import CategoryStep from "./StepComponents/CategoryStep";
 import PayStep from "./StepComponents/PayStep";
 
-const sabadKharidProduct: string[] = [];
-const sabadKharidPaper: string[] = [];
+const categoryChoice: string[] = ["Doulingo"];
+const basketItems: string[] = [];
 
 const Steps: React.FC = () => {
-  if (sabadKharidProduct.length === 0) {
+  if (categoryChoice.length > 0) {
     return <ProductStep />;
-  } else if (sabadKharidProduct.length > 0 && sabadKharidPaper.length === 0) {
-    return <PaperStep />;
-  } else if (sabadKharidProduct.length > 0 && sabadKharidPaper.length > 0) {
+  } else if (categoryChoice.length === 0 && basketItems.length === 0) {
+    return <CategoryStep />;
+  } else if (basketItems.length > 0) {
     return <PayStep />;
   }
   return (

@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
 
+let isConnected = false;
+
 export const ConnectToDb = async () => {
   try {
+    if(isConnected){
+      console.log("Database is already connected!");
+      return;
+    }
+
     const dbURI = process.env.DB_URI?.toString();
 
     if (!dbURI) {
@@ -10,6 +17,7 @@ export const ConnectToDb = async () => {
 
     // Connecting to db
     await mongoose.connect(dbURI);
+    isConnected = true;
 
     console.log("Connected to DB successfully!");
   } catch (error) {

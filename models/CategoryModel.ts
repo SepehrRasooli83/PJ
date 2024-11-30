@@ -40,3 +40,4 @@ const CategoryModelSchema = new mongoose.Schema(
   const CategoryModel = mongoose.models.categories || mongoose.model("categories", CategoryModelSchema);
 
   export default CategoryModel;
+  export type CategoryModelType = mongoose.InferSchemaType<typeof CategoryModelSchema>;

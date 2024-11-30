@@ -1,261 +1,49 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState,useEffect,useReducer } from "react";
+
+type NewCategoryType = {
+  title: string,
+  slug: string,
+  description: string,
+  image_url: string,
+  meta_title: string,
+  meta_description: string,
+  meta_keywords: string,
+};
+
+type ActionType =
+  | { type: "SET_FIELD"; field: keyof NewCategoryType; payload: any }
+  | { type: "RESET" };
 
 const Categories = () => {
-  // Fake data for categories (25 categories)
-  const categories = [
-    {
-      id: 1,
-      title: "Cat 1",
-      slug: "cat-1",
-      description: "Description 1",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 1",
-      meta_description: "Meta description 1",
-      meta_keywords: "keyword1, keyword2",
-    },
-    {
-      id: 2,
-      title: "Cat 2",
-      slug: "cat-2",
-      description: "Description 2",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 2",
-      meta_description: "Meta description 2",
-      meta_keywords: "keyword3, keyword4",
-    },
-    {
-      id: 3,
-      title: "Cat 3",
-      slug: "cat-3",
-      description: "Description 3",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 3",
-      meta_description: "Meta description 3",
-      meta_keywords: "keyword5, keyword6",
-    },
-    {
-      id: 4,
-      title: "Cat 4",
-      slug: "cat-4",
-      description: "Description 4",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 4",
-      meta_description: "Meta description 4",
-      meta_keywords: "keyword7, keyword8",
-    },
-    {
-      id: 5,
-      title: "Cat 5",
-      slug: "cat-5",
-      description: "Description 5",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 5",
-      meta_description: "Meta description 5",
-      meta_keywords: "keyword9, keyword10",
-    },
-    {
-      id: 6,
-      title: "Cat 6",
-      slug: "cat-6",
-      description: "Description 6",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 6",
-      meta_description: "Meta description 6",
-      meta_keywords: "keyword11, keyword12",
-    },
-    {
-      id: 7,
-      title: "Cat 7",
-      slug: "cat-7",
-      description: "Description 7",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 7",
-      meta_description: "Meta description 7",
-      meta_keywords: "keyword13, keyword14",
-    },
-    {
-      id: 8,
-      title: "Cat 8",
-      slug: "cat-8",
-      description: "Description 8",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 8",
-      meta_description: "Meta description 8",
-      meta_keywords: "keyword15, keyword16",
-    },
-    {
-      id: 9,
-      title: "Cat 9",
-      slug: "cat-9",
-      description: "Description 9",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 9",
-      meta_description: "Meta description 9",
-      meta_keywords: "keyword17, keyword18",
-    },
-    {
-      id: 10,
-      title: "Cat 10",
-      slug: "cat-10",
-      description: "Description 10",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 10",
-      meta_description: "Meta description 10",
-      meta_keywords: "keyword19, keyword20",
-    },
-    {
-      id: 11,
-      title: "Cat 11",
-      slug: "cat-11",
-      description: "Description 11",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 11",
-      meta_description: "Meta description 11",
-      meta_keywords: "keyword21, keyword22",
-    },
-    {
-      id: 12,
-      title: "Cat 12",
-      slug: "cat-12",
-      description: "Description 12",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 12",
-      meta_description: "Meta description 12",
-      meta_keywords: "keyword23, keyword24",
-    },
-    {
-      id: 13,
-      title: "Cat 13",
-      slug: "cat-13",
-      description: "Description 13",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 13",
-      meta_description: "Meta description 13",
-      meta_keywords: "keyword25, keyword26",
-    },
-    {
-      id: 14,
-      title: "Cat 14",
-      slug: "cat-14",
-      description: "Description 14",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 14",
-      meta_description: "Meta description 14",
-      meta_keywords: "keyword27, keyword28",
-    },
-    {
-      id: 15,
-      title: "Cat 15",
-      slug: "cat-15",
-      description: "Description 15",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 15",
-      meta_description: "Meta description 15",
-      meta_keywords: "keyword29, keyword30",
-    },
-    {
-      id: 16,
-      title: "Cat 16",
-      slug: "cat-16",
-      description: "Description 16",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 16",
-      meta_description: "Meta description 16",
-      meta_keywords: "keyword31, keyword32",
-    },
-    {
-      id: 17,
-      title: "Cat 17",
-      slug: "cat-17",
-      description: "Description 17",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 17",
-      meta_description: "Meta description 17",
-      meta_keywords: "keyword33, keyword34",
-    },
-    {
-      id: 18,
-      title: "Cat 18",
-      slug: "cat-18",
-      description: "Description 18",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 18",
-      meta_description: "Meta description 18",
-      meta_keywords: "keyword35, keyword36",
-    },
-    {
-      id: 19,
-      title: "Cat 19",
-      slug: "cat-19",
-      description: "Description 19",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 19",
-      meta_description: "Meta description 19",
-      meta_keywords: "keyword37, keyword38",
-    },
-    {
-      id: 20,
-      title: "Cat 20",
-      slug: "cat-20",
-      description: "Description 20",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 20",
-      meta_description: "Meta description 20",
-      meta_keywords: "keyword39, keyword40",
-    },
-    {
-      id: 21,
-      title: "Cat 21",
-      slug: "cat-21",
-      description: "Description 21",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 21",
-      meta_description: "Meta description 21",
-      meta_keywords: "keyword41, keyword42",
-    },
-    {
-      id: 22,
-      title: "Cat 22",
-      slug: "cat-22",
-      description: "Description 22",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 22",
-      meta_description: "Meta description 22",
-      meta_keywords: "keyword43, keyword44",
-    },
-    {
-      id: 23,
-      title: "Cat 23",
-      slug: "cat-23",
-      description: "Description 23",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 23",
-      meta_description: "Meta description 23",
-      meta_keywords: "keyword45, keyword46",
-    },
-    {
-      id: 24,
-      title: "Cat 24",
-      slug: "cat-24",
-      description: "Description 24",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 24",
-      meta_description: "Meta description 24",
-      meta_keywords: "keyword47, keyword48",
-    },
-    {
-      id: 25,
-      title: "Cat 25",
-      slug: "cat-25",
-      description: "Description 25",
-      img_url: "https://via.placeholder.com/150",
-      meta_title: "Meta title 25",
-      meta_description: "Meta description 25",
-      meta_keywords: "keyword49, keyword50",
-    },
-  ];
+
+
+  //#region Fetching Initial Data
+  const [categories, setCategories] = useState<any[]>();
+  const [isDateFetched,setIsDataFetched] = useState(false);
+  
+  useEffect(()=>{
+    const fetchCategories = async ()=>{
+      try{
+        const response = await fetch('/api/category');
+        if(!response.ok){
+          return new Error("Failed to fetch categories");
+        }
+        const data: any[] = await response.json();
+        setCategories(data);
+      }catch(err){
+        return new Error(`Error: ${err}`);
+      }
+    }
+
+    if(isDateFetched || categories?.length === 0 || !categories){
+      fetchCategories();
+    }
+  },[isDateFetched])
+//#endregion
+
+  //#region Handling Pagination
 
   // Pagination state
   const itemsPerPage = 10;
@@ -264,7 +52,7 @@ const Categories = () => {
   // Calculate the range of categories for the current page
   const indexOfLastCategory = currentPage * itemsPerPage;
   const indexOfFirstCategory = indexOfLastCategory - itemsPerPage;
-  const currentCategories = categories.slice(
+  const currentCategories = categories?.slice(
     indexOfFirstCategory,
     indexOfLastCategory
   );
@@ -275,7 +63,66 @@ const Categories = () => {
   };
 
   // Calculate the total number of pages
-  const totalPages = Math.ceil(categories.length / itemsPerPage);
+  const totalPages = Math.ceil((categories?.length ?? 0) / itemsPerPage);
+
+  //#endregion
+
+  //#region Creating New Category
+
+  const categoryInitialState : NewCategoryType = {
+    title: "",
+    slug: "",
+    description: "",
+    image_url: "",
+    meta_title: "",
+    meta_description: "",
+    meta_keywords: "",
+  };
+
+  function categoryReducer(state: NewCategoryType, action: ActionType) {
+    switch (action.type) {
+      case "SET_FIELD":
+        return { ...state, [action.field]: action.payload };
+      case "RESET":
+        return categoryInitialState;
+      default:
+        return state;
+    }
+  }
+  
+  const [state, dispatch] = useReducer(categoryReducer, categoryInitialState);
+
+  const handleChange = (field: keyof NewCategoryType) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    dispatch({ type: "SET_FIELD", field, payload: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/api/category", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(state),
+      });
+
+      if (response.ok) {
+        alert("Category created successfully!");
+        dispatch({ type: "RESET" });
+        setIsDataFetched(true);
+      } else {
+        const error = await response.json();
+        alert("Error creating category: " + error.message);
+      }
+    } catch (err) {
+      console.error("Error creating category:", err);
+      alert("An unexpected error occurred.");
+    }
+  };
+
+  //#endregion
 
   return (
     <div className="p-6 max-w-6xl mx-auto bg-gray-800 text-white shadow-lg rounded-lg">
@@ -299,9 +146,9 @@ const Categories = () => {
               </tr>
             </thead>
             <tbody>
-              {currentCategories.map((category, index) => (
+              {currentCategories?.map((category, index) => (
                 <tr
-                  key={category.id}
+                  key={category._id}
                   className="bg-gray-700 hover:bg-gray-600 border-b border-gray-500"
                 >
                   <td className="px-6 py-4">
@@ -372,6 +219,7 @@ const Categories = () => {
         <h3 className="text-2xl font-semibold mb-4 text-gray-300">
           Create New Category
         </h3>
+        <form onSubmit={handleSubmit}>
         <div className="space-y-4">
           <div>
             <label
@@ -383,6 +231,8 @@ const Categories = () => {
             <input
               name="title"
               type="text"
+              value={state.title || ""}
+              onChange={handleChange("title")}
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -396,6 +246,8 @@ const Categories = () => {
             <input
               name="slug"
               type="text"
+              value={state.slug || ""}
+              onChange={handleChange("slug")}
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -409,6 +261,8 @@ const Categories = () => {
             <input
               name="description"
               type="text"
+              value={state.description || ""}
+              onChange={handleChange("description")}
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -422,6 +276,8 @@ const Categories = () => {
             <input
               name="img_url"
               type="text"
+              value={state.image_url || ""}
+              onChange={handleChange("image_url")}
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -435,6 +291,8 @@ const Categories = () => {
             <input
               name="meta_title"
               type="text"
+              value={state.meta_title || ""}
+              onChange={handleChange("meta_title")}
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -448,6 +306,8 @@ const Categories = () => {
             <input
               name="meta_description"
               type="text"
+              value={state.meta_description || ""}
+              onChange={handleChange("meta_description")}
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -460,14 +320,17 @@ const Categories = () => {
             </label>
             <input
               name="meta_keywords"
+              value={state.meta_keywords || ""}
+              onChange={handleChange("meta_keywords")}
               type="text"
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <button className="mt-4 px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+          <button type="submit" className="mt-4 px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
             Create Category
           </button>
         </div>
+        </form>
       </div>
     </div>
   );

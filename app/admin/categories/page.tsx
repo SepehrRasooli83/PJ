@@ -1,6 +1,9 @@
 "use client";
 
+import mongoose from "mongoose";
 import React, { useState,useEffect,useReducer } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 type NewCategoryType = {
   title: string,
@@ -17,7 +20,7 @@ type ActionType =
   | { type: "RESET" };
 
 const Categories = () => {
-
+  
 
   //#region Fetching Initial Data
   const [categories, setCategories] = useState<any[]>();
@@ -124,6 +127,31 @@ const Categories = () => {
 
   //#endregion
 
+  //#region Deleting Category
+
+  const handleDelete = async (id:mongoose.Types.ObjectId)=>{
+    try{
+      const response = await fetch(`/api/category?id=${id.toString()}`,{
+        method:"DELETE",
+        headers:{
+          "Content-Type": "application/json",
+        }
+      });
+      if(response.ok){
+        alert("Category Deleted");
+        setIsDataFetched(true);
+      }else{
+        const error = await response.json();
+        alert(`error has been ocured: ${error}`);
+      }
+    }catch(err){
+      console.log(err);
+    }
+  }   
+  
+  //#endregion
+  
+    
   return (
     <div className="p-6 max-w-6xl mx-auto bg-gray-800 text-white shadow-lg rounded-lg">
       <div>
@@ -171,9 +199,9 @@ const Categories = () => {
                   <td className="px-6 py-4 text-center">
                     <div className="flex flex-col space-y-2">
                       <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                        Edit
+                        <Link href={`/admin/categories/${category._id}`}>Edit</Link>
                       </button>
-                      <button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                      <button onClick={()=>handleDelete(category._id)} className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
                         Delete
                       </button>
                     </div>

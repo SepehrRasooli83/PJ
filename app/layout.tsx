@@ -6,7 +6,7 @@ import StepBar from "@/components/StepComponents/StepBar";
 import { StepType } from "./types/StepTypes";
 
 export const metadata: Metadata = {
-  title: "Choose the Gift you like...",
+  title: "All Services Available...",
 };
 
 export default function RootLayout({

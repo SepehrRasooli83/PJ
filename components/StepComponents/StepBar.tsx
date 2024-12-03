@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { StepType } from "@/app/types/StepTypes";
 
-const categoryChoice: string[] = ["Doulingo"];
+const categoryChoice: string[] = [];
 const basketItems: string[] = [];
 
 const StepBar: React.FC = () => {

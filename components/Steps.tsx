@@ -4,7 +4,7 @@ import ProductStep from "./StepComponents/ProductStep";
 import CategoryStep from "./StepComponents/CategoryStep";
 import PayStep from "./StepComponents/PayStep";
 
-const categoryChoice: string[] = ["Doulingo"];
+const categoryChoice: string[] = [];
 const basketItems: string[] = [];
 
 const Steps: React.FC = () => {

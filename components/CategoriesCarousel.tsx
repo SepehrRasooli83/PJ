@@ -1,49 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
-
-// Sample data: Array of categories
-const categories = [
-  "Playstation Account",
-  "Xbox Account",
-  "Freepik Account",
-  "PayPal Account",
-  "Apple ID",
-  "Telegram Premium",
-  "Google Play Gift Card",
-  "Discord Account",
-  "Volume Services",
-  "iTunes Gift Card",
-  "Call of Duty CP",
-  "Netflix Account",
-  "Spotify Account",
-  "Apple Music Subscription",
-  "Skype Credit",
-  "YouTube Premium Account",
-  "TradingView Subscription",
-  "GitHub Account",
-  "LightNode Server",
-  "NOD32 License",
-  "Stars Major (Specify Service)",
-  "SoundCloud Account",
-  "Steam Account",
-  "Hetzner Cloud",
-  "ChatGPT Subscription",
-  "Canva Account",
-  "Epic Games Account",
-  "EA Play Account",
-  "Twitch Account",
-  "Riot Games Points",
-  "Figma Premium Account",
-  "Notion Pro Subscription",
-  "Shopify Store Subscription",
-  "Coursera Premium Account",
-  "Duolingo Super Version",
-];
+import React, { useState, useEffect } from "react";
+import { CategoryModelType } from "@/models/CategoryModel";
 
 const CategoryCarousel: React.FC = () => {
+  const [categories, setCategories] = useState<CategoryModelType[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 20; // Adjusted for demonstration purposes (8 items per page)
+  const itemsPerPage = 20; // Adjusted for demonstration purposes (20 items per page)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/category");
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data: CategoryModelType[] = await response.json();
+        setCategories(data);
+      } catch (err) {
+        console.error(`Error: ${err}`);
+      }
+    };
+
+    if (categories.length === 0) {
+      fetchCategories();
+    }
+  }, []);
 
   // Function to move backward
   const handleMoveBackward = () => {
@@ -78,7 +60,7 @@ const CategoryCarousel: React.FC = () => {
             className="bg-gray-200 p-4 rounded-lg shadow-md cursor-pointer hover:scale-105 transition-all"
           >
             <span className="text-sm text-gray-700 font-medium text-center">
-              {category}
+              {category.title}
             </span>
           </div>
         ))}

@@ -24,7 +24,7 @@ const Categories = () => {
 
   //#region Fetching Initial Data
   const [categories, setCategories] = useState<any[]>();
-  const [isDateFetched,setIsDataFetched] = useState(false);
+  const [isDataFetched,setIsDataFetched] = useState(false);
   
   useEffect(()=>{
     const fetchCategories = async ()=>{
@@ -40,10 +40,10 @@ const Categories = () => {
       }
     }
 
-    if(isDateFetched || categories?.length === 0 || !categories){
+    if(isDataFetched || categories?.length === 0 || !categories){
       fetchCategories();
     }
-  },[isDateFetched])
+  },[isDataFetched])
 //#endregion
 
   //#region Handling Pagination

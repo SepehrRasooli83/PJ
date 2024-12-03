@@ -1,4 +1,4 @@
-import CategoryModel from "@/models/CategoryModel";
+import CategoryModel, { CategoryModelType } from "@/models/CategoryModel";
 import { NextRequest,NextResponse } from "next/server";
 import { ConnectToDb } from "@/db/ConnectToDb";
 
@@ -8,7 +8,8 @@ export async function GET(req:NextRequest){
     try{
         await ConnectToDb();
         const categories = await CategoryModel.find({});
-        return NextResponse.json(categories,{status:200});
+        const typedCategories = categories as CategoryModelType[];
+        return NextResponse.json(typedCategories,{status:200});
     }catch(error){
         return NextResponse.json({error:error},{status:500});
     }

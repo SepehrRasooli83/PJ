@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
+  const router = useRouter(); // Next.js router
 
   const handleSendOtp = async () => {
     try {
@@ -23,12 +25,14 @@ export default function Login() {
       redirect: false,
       phone,
       otp,
+      callbackUrl:'/user/profile'
     });
 
     if (result?.error) {
       console.error('Login failed:', result.error);
     } else {
       console.log('Login successful!');
+      router.push('/user/profile');
     }
   };
 

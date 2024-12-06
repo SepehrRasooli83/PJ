@@ -33,27 +33,31 @@ export default function SignUp() {
   };
 
   // Handle OTP verification
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
 
-    // Use signIn from next-auth to handle login using the credentials provider
+    console.log('got here 0');
+
+    //Use signIn from next-auth to handle login using the credentials provider
     const result = await signIn('credentials', {
-      phone, 
+      phone,
       otp,
       redirect: false, // Don't automatically redirect
+      callbackUrl: '/user/profile',
     });
+
+    console.log('got here 1');
 
     if (result?.error) {
       setMessage('Invalid OTP or OTP expired');
     } else {
-      router.push('/user/profile'); // Redirect to profile page on successful login
+      router.push(result?.url || '/user/profile'); // Redirect to the profile page
     }
   };
 
   return (
     <div>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <div>
         <div>
           <label>Phone Number</label>
           <input
@@ -66,7 +70,9 @@ export default function SignUp() {
         </div>
 
         {!isOtpSent && (
-          <button type="button" onClick={handleSendOtp}>Send OTP</button>
+          <button type="button" onClick={handleSendOtp}>
+            Send OTP
+          </button>
         )}
 
         {isOtpSent && (
@@ -79,12 +85,14 @@ export default function SignUp() {
               onChange={(e) => setOtp(e.target.value)}
               required
             />
-            <button type="submit">Verify OTP</button>
+            <button type="button" onClick={handleSubmit}>
+              Verify OTP
+            </button>
           </div>
         )}
 
         {message && <p>{message}</p>}
-      </form>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,29 @@
-// app/admin/page.tsx
+'use client';
 
 import React from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { notFound } from "next/navigation";
 
 const AdminPage = () => {
+  const { data: session, status } = useSession();
+
+  // Wait for the session to load before rendering
+  if (status === "loading") {
+    return <div>Loading...</div>; // Show a loading state while session data is being fetched
+  }
+
+  // Handle unauthenticated or invalid session
+  if (
+    status === "unauthenticated" || // If not logged in
+    session?.user?.phone !== '09126853771' &&
+    session?.user?.phone !== '09932619008'
+  ) {
+    console.log(session?.user?.phone?.toString());
+    console.log('u are not admin');
+    notFound();
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 text-white py-10 px-5">
       <div className="max-w-4xl mx-auto">

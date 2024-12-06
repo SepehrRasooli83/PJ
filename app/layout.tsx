@@ -17,18 +17,7 @@ export default function RootLayout({
   return (
     <html lang="fa">
       <body>
-        <header>
-          <nav>
-            <Navbar />
-          </nav>
-          <div>
-            <StepBar />
-          </div>
-        </header>
         <main>{children}</main>
-        <footer style={{ paddingTop: "20px" }}>
-          <Footer />
-        </footer>
       </body>
     </html>
   );

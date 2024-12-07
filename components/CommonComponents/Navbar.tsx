@@ -1,7 +1,7 @@
 'use client'
 
 import { FaUser, FaSignOutAlt,FaList,FaPowerOff } from "react-icons/fa"; // Install react-icons if you haven't yet
-import { FiSearch } from "react-icons/fi"; // For the search icon
+import { FiSearch } from "react-icons/fi";
 import './Navbar.css';
 import '@/app/globals.css';
 import { SessionProvider,useSession } from 'next-auth/react';
@@ -57,19 +57,17 @@ export default function Navbar() {
           </div>
 
           {/* Middle Section: Search Bar */}
-          <div className="flex-1 mx-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-              <FiSearch
-                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400"
-                size={20}
-              />
-            </div>
-          </div>
+          <form className="form hidden sm:block">
+              <button>
+                  <FiSearch />
+              </button>
+              <input className="input" placeholder="Search..." type="text" />
+              <button className="reset" type="reset">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+              </button>
+          </form>
 
           {/* Right Section: Logo */}
           <div className="text-gray-700 font-semibold text-xl">

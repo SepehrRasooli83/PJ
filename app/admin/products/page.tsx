@@ -388,18 +388,22 @@ const Products = () => {
             >
               Category
             </label>
-              <select
-                id="categoryId"
-                value={state.categoryId || ""}
-                onChange={() => handleChange("categoryId")}
-                className="w-full px-4 py-2 mt-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {categories?.map((category, index) => (
-                  <option key={index} value={category._id as string}>
-                    {category.title}
-                  </option>
-                ))}
-              </select>
+            <input
+              name="categoryId"
+              value={state.categoryId || ""}
+              onChange={handleChange("categoryId")}
+              type="text"
+              className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <h5>Category Ids:</h5>
+            {categories?.map((category) => (
+              <div key={category.id}>
+                <span className="text-green-400">{category.title} : </span>
+                <span className="text-red-400">{category._id.toString()}</span>
+              </div>
+            )) || <p>No categories available.</p>}
           </div>
           <button type="submit" className="mt-4 px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
             Create Product

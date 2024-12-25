@@ -1,12 +1,9 @@
-'use client'
-
+"use client";
 
 import "../globals.css";
-import Navbar from "@/components/CommonComponents/Navbar";
-import Footer from "@/components/CommonComponents/Footer";
-import StepBar from "@/components/StepComponents/StepBar";
 import { SessionProvider } from "next-auth/react";
-
+import Navbar from "../../components/CommonComponents/Navbar";
+import Footer from "../../components/CommonComponents/Footer";
 
 export default function HomeLayout({
   children,
@@ -17,25 +14,17 @@ export default function HomeLayout({
     <div>
       <div>
         <SessionProvider>
-            <header>
-              <nav>
-                <Navbar />
-              </nav>
-              <div>
-                <StepBar />
-              </div>
-            </header>
-            <main>{children}</main>
-            <footer style={{ paddingTop: "20px" }}>
-              <Footer />
-            </footer>
+          <header>
+            <nav>
+              <Navbar />
+            </nav>
+          </header>
+          <main>{children}</main>
+          <footer style={{ paddingTop: "20px" }}>
+            <Footer />
+          </footer>
         </SessionProvider>
       </div>
     </div>
   );
 }
-
-
-
-
-

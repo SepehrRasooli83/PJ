@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWT } from 'next-auth/jwt';
-import { User } from '@/models/User';
+import { User } from '../../../../models/User';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 console.log("NextAuth API is being called!"); // Debugging line

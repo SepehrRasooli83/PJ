@@ -1,10 +1,8 @@
-import Steps from "@/components/Steps";
-
 export default function Home() {
   return (
     <>
       <div>
-        <Steps />
+        <h1>hello world</h1>
       </div>
     </>
   );

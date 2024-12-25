@@ -1,5 +1,5 @@
-import { ConnectToDb } from '@/db/ConnectToDb';
-import { User } from '@/models/User';
+import { ConnectToDb } from '../../../../db/ConnectToDb';
+import { User } from '../../../../models/User';
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 

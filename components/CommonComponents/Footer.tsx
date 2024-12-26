@@ -25,11 +25,11 @@ const Footer: React.FC = () => {
 
         {/* Links */}
         <div className="flex space-x-6">
-          <a href="#statistics" className="hover:text-[#555454]">
-            Statistics
+          <a href="#home" className="hover:text-[#555454]">
+            Home
           </a>
-          <a href="#search" className="hover:text-[#555454]">
-            Search
+          <a href="#my-statistics" className="hover:text-[#555454]">
+            My Statistics
           </a>
           <a href="#about-us" className="hover:text-[#555454]">
             About Us

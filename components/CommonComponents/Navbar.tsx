@@ -27,16 +27,16 @@ const Navbar: React.FC = () => {
           {/* Middle Menu */}
           <div className="flex space-x-6">
             <a
-              href="#search"
+              href="#home"
               className="hover:text-[#0080FF] font-medium transition-colors"
             >
-              Search
+              Home
             </a>
             <a
-              href="#statistics"
+              href="#my-statistics"
               className="hover:text-[#0080FF] font-medium transition-colors"
             >
-              Statistics
+              My Statistics
             </a>
           </div>
 

@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
-type TextFilterType = "title" | "creator" | "description";
+import { FilterType } from "../app/types/FilterType";
 
 type FiltersArgType = {
   display: "none" | "block";
@@ -10,20 +9,20 @@ type FiltersArgType = {
 
 const Filters: React.FC<FiltersArgType> = ({ display }) => {
   const [searchedTitle, setSearchedTitle] = useState<string | null>(null);
-  const [searchedCreator, setSearchedCreator] = useState<string | null>(null);
+  const [searchedChannel, setSearchedChannel] = useState<string | null>(null);
   const [searchedDescription, setSearchedDescription] = useState<string | null>(
     null
   );
 
-  async function SetFilterText(input: string, type: TextFilterType) {
+  async function SetFilterText(input: string, type: FilterType) {
     switch (type) {
-      case "title":
+      case FilterType.Title:
         setSearchedTitle(input);
         break;
-      case "creator":
-        setSearchedCreator(input);
+      case FilterType.Channel:
+        setSearchedChannel(input);
         break;
-      case "description":
+      case FilterType.Description:
         setSearchedDescription(input);
         break;
     }
@@ -31,7 +30,7 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
 
   async function Search() {
     console.log(
-      `${searchedTitle} - ${searchedCreator} - ${searchedDescription}`
+      `${searchedTitle} - ${searchedChannel} - ${searchedDescription}`
     );
   }
 
@@ -54,21 +53,23 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
             <input
               id="title"
               name="title"
-              onChange={(e) => SetFilterText(e.target.value, "title")}
+              onChange={(e) => SetFilterText(e.target.value, FilterType.Title)}
               type="text"
               placeholder="react in 3 minutes..."
               className="w-full p-2 border rounded"
             />
           </div>
-          {/* Creator Name Filter */}
+          {/* Channel Name Filter */}
           <div className="flex flex-col">
-            <label htmlFor="creator" className="mb-1">
-              Creator Name:
+            <label htmlFor="channel" className="mb-1">
+              Channel Name:
             </label>
             <input
-              id="creator"
-              name="creator"
-              onChange={(e) => SetFilterText(e.target.value, "creator")}
+              id="channel"
+              name="channel"
+              onChange={(e) =>
+                SetFilterText(e.target.value, FilterType.Channel)
+              }
               type="text"
               placeholder="free code camp..."
               className="w-full p-2 border rounded"
@@ -82,7 +83,9 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
             <input
               id="description"
               name="description"
-              onChange={(e) => SetFilterText(e.target.value, "description")}
+              onChange={(e) =>
+                SetFilterText(e.target.value, FilterType.Description)
+              }
               type="text"
               placeholder="this video is about..."
               className="w-full p-2 border rounded"

@@ -1,34 +1,52 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FilterType } from "../app/types/FilterType";
 
 type FiltersArgType = {
+  setSearchingTitle: (value: string | null) => void;
+  setSearchingChannel: (value: string | null) => void;
+  setSearchingDescription: (value: string | null) => void;
   display: "none" | "block";
 };
 
-const Filters: React.FC<FiltersArgType> = ({ display }) => {
-  const [searchedTitle, setSearchedTitle] = useState<string | null>(null);
-  const [searchedChannel, setSearchedChannel] = useState<string | null>(null);
-  const [searchedDescription, setSearchedDescription] = useState<string | null>(
+const Filters: React.FC<FiltersArgType> = ({
+  setSearchingTitle,
+  setSearchingChannel,
+  setSearchingDescription,
+  display,
+}) => {
+  const [searchedTitle, setSearchedTitleLocal] = useState<string | null>(null);
+  const [searchedChannel, setSearchedChannelLocal] = useState<string | null>(
     null
   );
+  const [searchedDescription, setSearchedDescriptionLocal] = useState<
+    string | null
+  >(null);
 
-  async function SetFilterText(input: string, type: FilterType) {
+  // Handle changes in the input fields, but don't update parent state yet
+  function SetFilterText(input: string, type: FilterType) {
     switch (type) {
       case FilterType.Title:
-        setSearchedTitle(input);
+        setSearchedTitleLocal(input);
         break;
       case FilterType.Channel:
-        setSearchedChannel(input);
+        setSearchedChannelLocal(input);
         break;
       case FilterType.Description:
-        setSearchedDescription(input);
+        setSearchedDescriptionLocal(input);
         break;
     }
   }
 
-  async function Search() {
+  // Handle the search action when the button is clicked
+  function Search() {
+    // Only trigger the state update in the parent component when the search button is clicked
+    setSearchingTitle(searchedTitle);
+    setSearchingChannel(searchedChannel);
+    setSearchingDescription(searchedDescription);
+
+    // Optionally, you can log the search values for debugging
     console.log(
       `${searchedTitle} - ${searchedChannel} - ${searchedDescription}`
     );
@@ -53,12 +71,14 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
             <input
               id="title"
               name="title"
+              value={searchedTitle || ""}
               onChange={(e) => SetFilterText(e.target.value, FilterType.Title)}
               type="text"
               placeholder="react in 3 minutes..."
               className="w-full p-2 border rounded"
             />
           </div>
+
           {/* Channel Name Filter */}
           <div className="flex flex-col">
             <label htmlFor="channel" className="mb-1">
@@ -67,6 +87,7 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
             <input
               id="channel"
               name="channel"
+              value={searchedChannel || ""}
               onChange={(e) =>
                 SetFilterText(e.target.value, FilterType.Channel)
               }
@@ -75,6 +96,7 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
               className="w-full p-2 border rounded"
             />
           </div>
+
           {/* Description Filter */}
           <div className="flex flex-col">
             <label htmlFor="description" className="mb-1">
@@ -83,6 +105,7 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
             <input
               id="description"
               name="description"
+              value={searchedDescription || ""}
               onChange={(e) =>
                 SetFilterText(e.target.value, FilterType.Description)
               }
@@ -92,6 +115,7 @@ const Filters: React.FC<FiltersArgType> = ({ display }) => {
             />
           </div>
         </div>
+
         {/* Search Button */}
         <button
           onClick={Search}

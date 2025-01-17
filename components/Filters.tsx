@@ -1,55 +1,46 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import { FilterType } from "../app/types/FilterType";
+import { useFilterContext } from "../contexts/FiltersContext"; // Import the custom hook
 
-type FiltersArgType = {
-  setSearchingTitle: (value: string | null) => void;
-  setSearchingChannel: (value: string | null) => void;
-  setSearchingDescription: (value: string | null) => void;
+type FiltersProps = {
   display: "none" | "block";
+  setSearchedTitle: (value: string | null) => void;
+  setSearchedChannel: (value: string | null) => void;
+  setSearchedDescription: (value: string | null) => void;
+  setVideos: (videos: any[]) => void; // Add the setter for videos state
+  handleSearch: () => void; // Add the handleSearch function
 };
 
-const Filters: React.FC<FiltersArgType> = ({
-  setSearchingTitle,
-  setSearchingChannel,
-  setSearchingDescription,
+const Filters: React.FC<FiltersProps> = ({
+  setSearchedTitle,
+  setSearchedChannel,
+  setSearchedDescription,
   display,
+  setVideos,
+  handleSearch, // Receive the handleSearch function
 }) => {
-  const [searchedTitle, setSearchedTitleLocal] = useState<string | null>(null);
-  const [searchedChannel, setSearchedChannelLocal] = useState<string | null>(
-    null
-  );
-  const [searchedDescription, setSearchedDescriptionLocal] = useState<
-    string | null
-  >(null);
+  const {
+    searchedTitle,
+    searchedChannel,
+    searchedDescription,
+    setSearchedTitle: contextSetSearchedTitle,
+    setSearchedChannel: contextSetSearchedChannel,
+    setSearchedDescription: contextSetSearchedDescription,
+  } = useFilterContext();
 
-  // Handle changes in the input fields, but don't update parent state yet
+  // Handle changes in the input fields
   function SetFilterText(input: string, type: FilterType) {
     switch (type) {
       case FilterType.Title:
-        setSearchedTitleLocal(input);
+        setSearchedTitle(input);
         break;
       case FilterType.Channel:
-        setSearchedChannelLocal(input);
+        setSearchedChannel(input);
         break;
       case FilterType.Description:
-        setSearchedDescriptionLocal(input);
+        setSearchedDescription(input);
         break;
     }
-  }
-
-  // Handle the search action when the button is clicked
-  function Search() {
-    // Only trigger the state update in the parent component when the search button is clicked
-    setSearchingTitle(searchedTitle);
-    setSearchingChannel(searchedChannel);
-    setSearchingDescription(searchedDescription);
-
-    // Optionally, you can log the search values for debugging
-    console.log(
-      `${searchedTitle} - ${searchedChannel} - ${searchedDescription}`
-    );
   }
 
   return (
@@ -63,7 +54,6 @@ const Filters: React.FC<FiltersArgType> = ({
     >
       <form className="space-y-4">
         <div className="flex space-x-4 mb-4">
-          {/* Title Filter */}
           <div className="flex flex-col">
             <label htmlFor="title" className="mb-1">
               Title:
@@ -79,7 +69,6 @@ const Filters: React.FC<FiltersArgType> = ({
             />
           </div>
 
-          {/* Channel Name Filter */}
           <div className="flex flex-col">
             <label htmlFor="channel" className="mb-1">
               Channel Name:
@@ -97,7 +86,6 @@ const Filters: React.FC<FiltersArgType> = ({
             />
           </div>
 
-          {/* Description Filter */}
           <div className="flex flex-col">
             <label htmlFor="description" className="mb-1">
               Description:
@@ -116,9 +104,11 @@ const Filters: React.FC<FiltersArgType> = ({
           </div>
         </div>
 
-        {/* Search Button */}
         <button
-          onClick={Search}
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default form submission
+            handleSearch(); // Trigger search
+          }}
           type="button"
           className="w-auto p-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
         >

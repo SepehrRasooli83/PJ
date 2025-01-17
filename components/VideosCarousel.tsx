@@ -1,40 +1,54 @@
 "use client";
+import React from "react";
 
-import React, { useState } from "react";
-import Navbar from "./CommonComponents/Navbar";
+type Video = {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  publishedAt: string;
+};
 
-const VideosCarousel: React.FC = () => {
-  // State for the filters
-  const [searchedTitle, setSearchedTitle] = useState<string | null>(null);
-  const [searchedChannel, setSearchedChannel] = useState<string | null>(null);
-  const [searchedDescription, setSearchedDescription] = useState<string | null>(
-    null
-  );
+type VideoCarouselProps = {
+  videos: Video[]; // Accept the videos as props
+};
 
-  // Function to update the filter states
-  const updateTitle = (value: string | null) => setSearchedTitle(value);
-  const updateChannel = (value: string | null) => setSearchedChannel(value);
-  const updateDescription = (value: string | null) =>
-    setSearchedDescription(value);
-
+const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos }) => {
   return (
-    <>
-      {/* Pass the state update functions to Navbar */}
-      <Navbar
-        setSearchingTitle={updateTitle}
-        setSearchingChannel={updateChannel}
-        setSearchingDescription={updateDescription}
-      />
-
-      {/* Render filter values in the main page */}
-      <div>
-        <h3>Applied Filters</h3>
-        <p>Title: {searchedTitle}</p>
-        <p>Channel: {searchedChannel}</p>
-        <p>Description: {searchedDescription}</p>
-      </div>
-    </>
+    <div className="video-carousel-container" style={{ padding: "20px" }}>
+      {videos.length > 0 ? (
+        <div
+          className="carousel"
+          style={{ display: "flex", overflowX: "auto" }}
+        >
+          {videos.map((video) => (
+            <div
+              key={video.id}
+              className="carousel-item"
+              style={{ margin: "10px" }}
+            >
+              <div className="video-card">
+                <iframe
+                  width="300"
+                  height="200"
+                  src={`https://www.youtube.com/embed/${video.id}`}
+                  title={video.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ borderRadius: "8px" }}
+                ></iframe>
+                <h3 style={{ textAlign: "center" }}>{video.title}</h3>
+                <p>{video.description.substring(0, 100)}...</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No videos found.</p>
+      )}
+    </div>
   );
 };
 
-export default VideosCarousel;
+export default VideoCarousel;

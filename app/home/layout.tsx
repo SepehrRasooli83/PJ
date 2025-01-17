@@ -4,6 +4,7 @@ import "../globals.css";
 import { SessionProvider } from "next-auth/react";
 import Navbar from "../../components/CommonComponents/Navbar";
 import Footer from "../../components/CommonComponents/Footer";
+import { FilterProvider } from "../../contexts/FiltersContext";
 
 export default function HomeLayout({
   children,
@@ -11,20 +12,22 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <FilterProvider>
       <div>
-        <SessionProvider>
-          <header>
-            <nav>
-              <Navbar />
-            </nav>
-          </header>
-          <main>{children}</main>
-          <footer style={{ paddingTop: "20px" }}>
-            <Footer />
-          </footer>
-        </SessionProvider>
+        <div>
+          <SessionProvider>
+            <header>
+              <nav>
+                <Navbar />
+              </nav>
+            </header>
+            <main>{children}</main>
+            <footer style={{ paddingTop: "20px" }}>
+              <Footer />
+            </footer>
+          </SessionProvider>
+        </div>
       </div>
-    </div>
+    </FilterProvider>
   );
 }

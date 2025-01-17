@@ -10,10 +10,11 @@ type Video = {
 };
 
 type VideoCarouselProps = {
-  videos: Video[]; // Accept the videos as props
+  videos: Video[];
 };
 
 const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos }) => {
+  console.log(`VIDEOS::: ${videos.length}`);
   return (
     <div className="video-carousel-container" style={{ padding: "20px" }}>
       {videos.length > 0 ? (

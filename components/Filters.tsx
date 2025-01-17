@@ -1,47 +1,23 @@
+"use client";
+
 import React from "react";
 import { FilterType } from "../app/types/FilterType";
-import { useFilterContext } from "../contexts/FiltersContext"; // Import the custom hook
+import { useFilterContext } from "../contexts/FiltersContext";
 
 type FiltersProps = {
   display: "none" | "block";
-  setSearchedTitle: (value: string | null) => void;
-  setSearchedChannel: (value: string | null) => void;
-  setSearchedDescription: (value: string | null) => void;
-  setVideos: (videos: any[]) => void; // Add the setter for videos state
-  handleSearch: () => void; // Add the handleSearch function
+  handleSearch: () => void; // Function to trigger search
 };
 
-const Filters: React.FC<FiltersProps> = ({
-  setSearchedTitle,
-  setSearchedChannel,
-  setSearchedDescription,
-  display,
-  setVideos,
-  handleSearch, // Receive the handleSearch function
-}) => {
+const Filters: React.FC<FiltersProps> = ({ display, handleSearch }) => {
   const {
     searchedTitle,
     searchedChannel,
     searchedDescription,
-    setSearchedTitle: contextSetSearchedTitle,
-    setSearchedChannel: contextSetSearchedChannel,
-    setSearchedDescription: contextSetSearchedDescription,
+    setSearchedTitle,
+    setSearchedChannel,
+    setSearchedDescription,
   } = useFilterContext();
-
-  // Handle changes in the input fields
-  function SetFilterText(input: string, type: FilterType) {
-    switch (type) {
-      case FilterType.Title:
-        setSearchedTitle(input);
-        break;
-      case FilterType.Channel:
-        setSearchedChannel(input);
-        break;
-      case FilterType.Description:
-        setSearchedDescription(input);
-        break;
-    }
-  }
 
   return (
     <div
@@ -55,14 +31,11 @@ const Filters: React.FC<FiltersProps> = ({
       <form className="space-y-4">
         <div className="flex space-x-4 mb-4">
           <div className="flex flex-col">
-            <label htmlFor="title" className="mb-1">
-              Title:
-            </label>
+            <label htmlFor="title">Title:</label>
             <input
               id="title"
-              name="title"
               value={searchedTitle || ""}
-              onChange={(e) => SetFilterText(e.target.value, FilterType.Title)}
+              onChange={(e) => setSearchedTitle(e.target.value)}
               type="text"
               placeholder="react in 3 minutes..."
               className="w-full p-2 border rounded"
@@ -70,16 +43,11 @@ const Filters: React.FC<FiltersProps> = ({
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="channel" className="mb-1">
-              Channel Name:
-            </label>
+            <label htmlFor="channel">Channel Name:</label>
             <input
               id="channel"
-              name="channel"
               value={searchedChannel || ""}
-              onChange={(e) =>
-                SetFilterText(e.target.value, FilterType.Channel)
-              }
+              onChange={(e) => setSearchedChannel(e.target.value)}
               type="text"
               placeholder="free code camp..."
               className="w-full p-2 border rounded"
@@ -87,16 +55,11 @@ const Filters: React.FC<FiltersProps> = ({
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="description" className="mb-1">
-              Description:
-            </label>
+            <label htmlFor="description">Description:</label>
             <input
               id="description"
-              name="description"
               value={searchedDescription || ""}
-              onChange={(e) =>
-                SetFilterText(e.target.value, FilterType.Description)
-              }
+              onChange={(e) => setSearchedDescription(e.target.value)}
               type="text"
               placeholder="this video is about..."
               className="w-full p-2 border rounded"
@@ -106,8 +69,8 @@ const Filters: React.FC<FiltersProps> = ({
 
         <button
           onClick={(e) => {
-            e.preventDefault(); // Prevent default form submission
-            handleSearch(); // Trigger search
+            e.preventDefault();
+            handleSearch();
           }}
           type="button"
           className="w-auto p-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"

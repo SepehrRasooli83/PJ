@@ -1,42 +1,48 @@
+"use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useFilterContext } from "../../contexts/FiltersContext";
 import Filters from "../Filters";
-import { FilterType } from "../../app/types/FilterType"; // Import FilterType
-import axios from "axios"; // Import axios for API requests
+import { FilterType } from "../../app/types/FilterType";
+import axios from "axios";
 
-const Navbar: React.FC = () => {
-  const { setSearchedTitle, setSearchedChannel, setSearchedDescription } =
-    useFilterContext();
+type NavbarProps = {
+  setVideos: (videos: any[]) => void; // Accept setVideos as a prop
+};
+
+const Navbar: React.FC<NavbarProps> = ({ setVideos }) => {
+  const { searchedTitle, searchedChannel, searchedDescription } =
+    useFilterContext(); // Destructure state values instead of setters
   const [display, setDisplay] = useState<"none" | "block">("none");
-  const [videos, setVideos] = useState<any[]>([]); // Videos state to store results
 
   const OpenFilters = () => {
     setDisplay((prevDisplay) => (prevDisplay === "none" ? "block" : "none"));
   };
 
-  // Function to handle the search when the user clicks "Search"
   const handleSearch = async () => {
     try {
-      const filterType = setSearchedTitle
-        ? FilterType.Title
-        : setSearchedChannel
-        ? FilterType.Channel
-        : FilterType.Description;
-
+      // Use the actual values from context, not the setter functions
       const query =
-        setSearchedTitle || setSearchedChannel || setSearchedDescription;
+        searchedTitle || searchedChannel || searchedDescription || "";
+
+      let filterType = FilterType.Description; // Default to Description
+      if (searchedTitle) {
+        filterType = FilterType.Title;
+      } else if (searchedChannel) {
+        filterType = FilterType.Channel;
+      }
+
+      console.log("Calling videos API with:", query, filterType);
 
       const response = await axios.get("/api/videos", {
-        params: {
-          q: query,
-          filterType: filterType,
-        },
+        params: { q: query, filterType: filterType },
       });
 
       if (response.status === 200) {
-        setVideos(response.data); // Update videos with the results
+        console.log("Fetched videos successfully", response.data);
+        setVideos(response.data); // Update global videos state
       }
     } catch (error) {
       console.error("Error fetching videos:", error);
@@ -83,37 +89,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Filters Component */}
-      <Filters
-        setSearchedTitle={setSearchedTitle}
-        setSearchedChannel={setSearchedChannel}
-        setSearchedDescription={setSearchedDescription}
-        display={display}
-        setVideos={setVideos} // Pass setVideos to Filters
-        handleSearch={handleSearch} // Pass the handleSearch function to Filters
-      />
-
-      {/* VideoCarousel */}
-      <div className="video-carousel">
-        {videos.length > 0 ? (
-          videos.map((video) => (
-            <div key={video.id} className="video-item">
-              <iframe
-                width="560"
-                height="315"
-                src={`https://www.youtube.com/embed/${video.id}`}
-                title={video.title}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-              <h3>{video.title}</h3>
-              <p>{video.description}</p>
-            </div>
-          ))
-        ) : (
-          <p>No videos found</p>
-        )}
-      </div>
+      <Filters handleSearch={handleSearch} display={display} />
     </>
   );
 };

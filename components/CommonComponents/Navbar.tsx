@@ -7,6 +7,7 @@ import { useFilterContext } from "../../contexts/FiltersContext";
 import Filters from "../Filters";
 import { FilterType } from "../../app/types/FilterType";
 import axios from "axios";
+import { useEffect } from "react";
 
 type NavbarProps = {
   setVideos: (videos: any[]) => void; // Accept setVideos as a prop
@@ -20,6 +21,26 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos }) => {
   const OpenFilters = () => {
     setDisplay((prevDisplay) => (prevDisplay === "none" ? "block" : "none"));
   };
+
+  useEffect(() => {
+    const initialQuery = localStorage.getItem("lastSearchedQuery") || "";
+    const initialFilterType =
+      localStorage.getItem("lastSearchedFilterType") || "";
+
+    async function fetchInitialVideos() {
+      try {
+        const response = await axios.get("/api/videos", {
+          params: { q: initialQuery, filterType: initialFilterType },
+        });
+
+        setVideos(response.data);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
+    }
+
+    fetchInitialVideos();
+  }, []);
 
   const handleSearch = async () => {
     try {
@@ -35,6 +56,10 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos }) => {
       }
 
       console.log("Calling videos API with:", query, filterType);
+
+      //save user's last search in localstorage to fetch initial videos
+      localStorage.setItem("lastSearchedQuery", query);
+      localStorage.setItem("lastSearchedFilterType", filterType);
 
       const response = await axios.get("/api/videos", {
         params: { q: query, filterType: filterType },

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 type Article = {
   id: string;
@@ -8,7 +8,6 @@ type Article = {
   link: string;
   summary: string;
   published: string;
-  publishedDate: string;
   author: string;
 };
 
@@ -17,16 +16,93 @@ type ArticlesGridProps = {
 };
 
 const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const articlesPerPage = 9; // 3x3 grid means 9 articles per page
+
+  // Calculate the articles to display based on the current page
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+  const currentArticles = articles.slice(
+    indexOfFirstArticle,
+    indexOfLastArticle
+  );
+
+  // Change page handler
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(articles.length / articlesPerPage);
+
   return (
-    <>
+    <div>
       {articles.length > 0 ? (
-        <div>
-          {articles.map((article) => (
-            <div key={article.id}>
-              <h3>{article.title}</h3>
-            </div>
-          ))}
-        </div>
+        <>
+          {/* Articles Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {currentArticles.map((article) => (
+              <div
+                key={article.id}
+                className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300"
+              >
+                <h3 className="text-xl font-semibold mb-2">
+                  <a
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {article.title}
+                  </a>
+                </h3>
+                <p className="text-xs text-gray-600">
+                  Author: {article.author}
+                </p>
+                <p className="text-xs text-gray-400">
+                  Published: {new Date(article.published).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center mt-6">
+            <button
+              className={`px-4 py-2 mx-2 border rounded-lg ${
+                currentPage === 1 ? "text-gray-300 cursor-not-allowed" : ""
+              }`}
+              disabled={currentPage === 1}
+              onClick={() => paginate(currentPage - 1)}
+            >
+              Previous
+            </button>
+
+            {/* Page numbers */}
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                className={`px-4 py-2 mx-2 border rounded-lg ${
+                  currentPage === index + 1
+                    ? "bg-blue-500 text-white"
+                    : "text-blue-500"
+                }`}
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              className={`px-4 py-2 mx-2 border rounded-lg ${
+                currentPage === totalPages
+                  ? "text-gray-300 cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={currentPage === totalPages}
+              onClick={() => paginate(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+        </>
       ) : (
         <div
           role="status"
@@ -52,7 +128,7 @@ const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles }) => {
           <span className="sr-only">Loading...</span>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

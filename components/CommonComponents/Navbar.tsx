@@ -8,12 +8,14 @@ import Filters from "../Filters";
 import { FilterType } from "../../app/types/FilterType";
 import axios from "axios";
 import { useEffect } from "react";
+import { parseString } from "xml2js";
 
 type NavbarProps = {
   setVideos: (videos: any[]) => void; // Accept setVideos as a prop
+  setArticles: (articles: any[]) => void;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ setVideos }) => {
+const Navbar: React.FC<NavbarProps> = ({ setVideos, setArticles }) => {
   const { searchedTitle, searchedChannel, searchedDescription } =
     useFilterContext(); // Destructure state values instead of setters
   const [display, setDisplay] = useState<"none" | "block">("none");
@@ -39,7 +41,22 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos }) => {
       }
     }
 
+    const fetchInitialArticles = async () => {
+      try {
+        const Initialq = localStorage.getItem("lastSearchedQuery") || "";
+
+        // Send the topic as a query parameter to the API
+        const response = await axios.get(`/api/articles?q=${Initialq}`);
+
+        // Set the articles state with the response data
+        setArticles(response.data);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+      }
+    };
+
     fetchInitialVideos();
+    fetchInitialArticles();
   }, []);
 
   const handleSearch = async () => {

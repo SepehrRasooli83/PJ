@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   //filtering inputs
   const q = searchParams.get('q') || ''; // Get 'q' param or default to an empty string
   const filterType = searchParams.get('filterType') || '';
-  const maxResults = 10;
+  const maxResults = 27;
 
   if (!apiKey) {
     return NextResponse.json({ error: 'API key is missing' }, { status: 500 });

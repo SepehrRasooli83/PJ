@@ -78,6 +78,14 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos, setArticles }) => {
       localStorage.setItem("lastSearchedQuery", query);
       localStorage.setItem("lastSearchedFilterType", filterType);
 
+      //fetching articles
+      const articlesResponse = await axios.get(`/api/articles?q=${query}`);
+      if (articlesResponse.status === 200) {
+        console.log("fetched articles successfully");
+        setArticles(articlesResponse.data);
+      }
+
+      //fetching videos
       const response = await axios.get("/api/videos", {
         params: { q: query, filterType: filterType },
       });
@@ -87,7 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos, setArticles }) => {
         setVideos(response.data); // Update global videos state
       }
     } catch (error) {
-      console.error("Error fetching videos:", error);
+      console.error("Error fetching videos or articles:", error);
     }
   };
 

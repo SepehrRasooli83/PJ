@@ -186,9 +186,9 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos, setArticles }) => {
         </div>
 
         {/* Filters Button */}
-        <div className="px-5 flex justify-center container max-w-full">
+        <div className="px-5 flex justify-center container">
           <button
-            className="py-2 rounded-tl-lg rounded-tr-lg px-2 text-white bg-[#0080FF] py-0 float-right flex items-center gap-2"
+            className="py-2 justify-center text-md w-[170px] rounded-tl-lg rounded-tr-lg px-2 text-white bg-[#0080FF] py-0 flex items-center gap-2"
             type="button"
             onClick={toggleArrow}
           >

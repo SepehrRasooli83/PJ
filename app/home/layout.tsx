@@ -22,17 +22,28 @@ export default function HomeLayout({
       <SessionProvider>
         <header>
           <nav>
-            <Navbar setVideos={setVideos} setArticles={setArticles} />{" "}
-            {/* Pass setVideos to Navbar */}
+            <Navbar setVideos={setVideos} setArticles={setArticles} />
           </nav>
         </header>
+
         <main>
           {children}
-          <VideoCarousel videos={videos} /> {/* Pass videos to VideoCarousel */}
-          <hr />
-          <ArticlesGrid articles={articles} />
+
+          {/* Flex container to display VideoCarousel and ArticlesGrid */}
+          <div className="flex flex-row gap-5 p-5 min-h-[calc(100vh-200px)]">
+            {/* VideoCarousel */}
+            <div className="flex-1 overflow-hidden">
+              <VideoCarousel videos={videos} />
+            </div>
+
+            {/* ArticlesGrid */}
+            <div className="flex-1 overflow-hidden overflow-y-auto">
+              <ArticlesGrid articles={articles} />
+            </div>
+          </div>
         </main>
-        <footer style={{ paddingTop: "20px" }}>
+
+        <footer className="pt-5">
           <Footer />
         </footer>
       </SessionProvider>

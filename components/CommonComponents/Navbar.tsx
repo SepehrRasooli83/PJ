@@ -124,9 +124,8 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos, setArticles }) => {
   return (
     <>
       <nav
-        className="max-h-auto border-b-4 border-[#0080FF] rounded-b-2xl"
+        className="max-h-auto border-b-4 border-[#0080FF] rounded-b-2xl bg-[#f2f8ff]"
         style={{
-          backgroundColor: "#F5F5DC",
           color: "#555454",
         }}
       >

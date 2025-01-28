@@ -13,11 +13,12 @@ type Article = {
 
 type ArticlesGridProps = {
   articles: Article[];
+  style?: React.CSSProperties; // Add a style prop for custom styles
 };
 
-const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles }) => {
+const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles, style }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 9; // 3x3 grid means 9 articles per page
+  const articlesPerPage = 5; // Display 5 articles per page (one per row)
 
   // Calculate the articles to display based on the current page
   const indexOfLastArticle = currentPage * articlesPerPage;
@@ -34,11 +35,18 @@ const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles }) => {
   const totalPages = Math.ceil(articles.length / articlesPerPage);
 
   return (
-    <div>
+    <div
+      style={{
+        width: "100%", // Full width on all screen sizes
+        height: "100%", // Full height on all screen sizes
+        overflow: "auto", // Add scroll if content overflows
+        ...style, // Apply custom styles passed as props
+      }}
+    >
       {articles.length > 0 ? (
         <>
           {/* Articles Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-4">
             {currentArticles.map((article) => (
               <div
                 key={article.id}
@@ -53,7 +61,7 @@ const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles }) => {
                     {article.title}
                   </a>
                 </h3>
-                <p className="text-xs text-gray-600">
+                <p className="text-xs text-gray-600 mt-2">
                   Author: {article.author}
                 </p>
                 <p className="text-xs text-gray-400">

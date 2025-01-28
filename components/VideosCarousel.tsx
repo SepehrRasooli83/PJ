@@ -9,11 +9,12 @@ type Video = {
   publishedAt: string;
 };
 
-type VideoGridProps = {
+type VideoCarouselProps = {
   videos: Video[];
+  style?: React.CSSProperties; // Add a style prop
 };
 
-const VideoGrid: React.FC<VideoGridProps> = ({ videos }) => {
+const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos, style }) => {
   const videosPerPage = 9; // Display 3x3 grid (9 videos per page)
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -30,7 +31,16 @@ const VideoGrid: React.FC<VideoGridProps> = ({ videos }) => {
       <div>
         <h1 className="flex justify-center">Videos</h1>
       </div>
-      <div className="video-grid-container" style={{ padding: "20px" }}>
+      <div
+        className="video-grid-container"
+        style={{
+          width: "100%", // Full width on all screen sizes
+          height: "100%", // Full height on all screen sizes
+          padding: "20px",
+          overflow: "auto", // Add scroll if content overflows
+          ...style, // Apply custom styles passed as props
+        }}
+      >
         {videos.length > 0 ? (
           <>
             {/* Video Grid */}
@@ -38,7 +48,7 @@ const VideoGrid: React.FC<VideoGridProps> = ({ videos }) => {
               className="grid-container"
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)", // 3 columns
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", // Responsive grid
                 gap: "20px",
               }}
             >
@@ -152,4 +162,4 @@ const VideoGrid: React.FC<VideoGridProps> = ({ videos }) => {
   );
 };
 
-export default VideoGrid;
+export default VideoCarousel;

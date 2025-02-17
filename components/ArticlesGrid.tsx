@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type Article = {
   id: string;
@@ -12,11 +12,14 @@ type Article = {
 };
 
 type ArticlesGridProps = {
-  articles: Article[];
+  articles?: Article[]; // Make articles optional
   style?: React.CSSProperties; // Add a style prop for custom styles
 };
 
-const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles, style }) => {
+const ArticlesGrid: React.FC<ArticlesGridProps> = ({
+  articles = [],
+  style,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const articlesPerPage = 5; // Display 5 articles per page (one per row)
 

@@ -175,7 +175,7 @@ const Navbar: React.FC<NavbarProps> = ({ setVideos, setArticles }) => {
               <div className="relative font-semibold mt-2 left-0 w-full">
                 <div>
                   <button className="px-2 drop-shadow-l flex w-full rounded-full shadow-lg border-[3px] border-black-500 bg-[#f1f1f1] hover:border-[#0080FF] hover:text-[#004080]">
-                    Sign In
+                    <Link href={"/user/signup"}>Sign Up</Link>
                     <IoMdLogIn className="ml-1 mt-[4px] bg-[#f1f1f1]" />
                   </button>
                 </div>
